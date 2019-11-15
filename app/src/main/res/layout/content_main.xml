@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="384dp"
+        android:layout_width="370dp"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/layout_round"
@@ -40,15 +40,17 @@
             android:text="Paste your product URL in the field below"
             app:layout_constraintStart_toStartOf="@+id/main_url_header"
             app:layout_constraintTop_toBottomOf="@+id/main_url_header" />
+
         <RelativeLayout
             android:id="@+id/main_url_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/main_url_text"
             app:layout_constraintTop_toBottomOf="@+id/main_url_text">
+
             <EditText
                 android:id="@+id/main_url_input"
-                android:layout_width="355dp"
+                android:layout_width="340dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/layout_urltextround"
@@ -57,16 +59,17 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="20dp"
                 android:text="" />
+
             <ImageButton
                 android:id="@+id/main_url_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_close"
+                android:layout_alignTop="@+id/main_url_input"
+                android:layout_alignEnd="@+id/main_url_input"
                 android:background="?android:selectableItemBackground"
                 android:paddingTop="2dp"
                 android:paddingEnd="5dp"
-                android:layout_alignTop="@+id/main_url_input"
-                android:layout_alignEnd="@+id/main_url_input"/>
+                android:src="@drawable/ic_close" />
 
         </RelativeLayout>
 
@@ -84,7 +87,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="384dp"
+        android:layout_width="370dp"
         android:layout_height="150dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/layout_round"

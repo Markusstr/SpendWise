@@ -1,21 +1,17 @@
 package com.example.spendwise;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -23,12 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         final ImageButton main_url_close = findViewById(R.id.main_url_close);
         final EditText main_url_input = findViewById(R.id.main_url_input);
+        final Button main_url_button = findViewById(R.id.main_url_button);
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -56,6 +52,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 main_url_input.setText("");
+            }
+        });
+
+        main_url_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (main_url_input.getText().toString().equals("")) {
+                    Snackbar.make(v, "Enter URL first!", Snackbar.LENGTH_SHORT).show();
+                }
+                else {
+                    //TODO: Send URL to server
+                    Intent intent = new Intent(v.getContext(), ProductActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
