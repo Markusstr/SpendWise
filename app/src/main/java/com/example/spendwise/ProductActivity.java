@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -22,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -35,17 +38,24 @@ import okhttp3.Response;
 public class ProductActivity extends AppCompatActivity {
 
     float ean;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ProductRecyclerViewAdapter mAdapter;
+    private ArrayList<DataClass> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        dataList = new ArrayList<>();
+
         final TextView product_name = findViewById(R.id.product_name);
         final TextView product_price = findViewById(R.id.product_price);
         final ImageView product_picture = findViewById(R.id.product_picture);
         final ProgressBar progressBar2 = findViewById(R.id.progressBar2);
         final TextView average_time = findViewById(R.id.average_time);
+        final TextView co2_value = findViewById(R.id.co2_value);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -76,7 +86,7 @@ public class ProductActivity extends AppCompatActivity {
                     public void run() {
                         progressBar2.setVisibility(View.INVISIBLE);
                         new AlertDialog.Builder(ProductActivity.this)
-                                .setTitle("Cannot connect to server")
+                                .setTitle("Cannot connect to the server")
                                 .setMessage("We are having trouble connecting to the server. Try again later.")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
@@ -109,26 +119,53 @@ public class ProductActivity extends AppCompatActivity {
                         public void run() {
                             try {
                                 String productName = finalData.get("name").toString();
+                                if (productName.length() > 60) {
+                                    productName = productName.substring(0,60);
+                                }
                                 product_name.setText(productName);
                                 String priceText = "Price: " + finalData.get("price").toString() + "€";
                                 product_price.setText(priceText);
                                 product_picture.setImageBitmap(finalImage);
                                 ean = Float.parseFloat(finalData.get("ean").toString());
-                                String averageText = "Average use time of " + productName + " is " + finalData.get("usage").toString();
+                                String averageText = finalData.get("usage").toString();
                                 average_time.setText(averageText);
-
+                                co2_value.setText(finalData.get("co2").toString());
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            } catch (NullPointerException e) {
+                                Toast.makeText(ProductActivity.this, "We couldn't retrieve product information", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
-
                             progressBar2.setVisibility(View.INVISIBLE);
-                            Toast.makeText(ProductActivity.this, "Valmis", Toast.LENGTH_SHORT).show();
+                            createRecyclerView();
                         }
                     });
                 }
             }
         });
+        Bitmap product1 = BitmapFactory.decodeResource(getResources(), R.drawable.product1);
+        Bitmap product2 = BitmapFactory.decodeResource(getResources(), R.drawable.product2);
+        Bitmap product3 = BitmapFactory.decodeResource(getResources(), R.drawable.product3);
+        Bitmap product4 = BitmapFactory.decodeResource(getResources(), R.drawable.product4);
+        DataClass data;
+
+        data = new DataClass(product1, "Camera", "Price: 190€");
+        dataList.add(data);
+        data = new DataClass(product2, "Microphone", "Price: 60€");
+        dataList.add(data);
+        data = new DataClass(product3, "Boat", "Price: 3000€");
+        dataList.add(data);
+        data = new DataClass(product4, "Handheld drill", "Price: 150€");
+        dataList.add(data);
+        data = new DataClass(product1, "Camera", "Price: 190€");
+        dataList.add(data);
+        data = new DataClass(product2, "Microphone", "Price: 60€");
+        dataList.add(data);
+        data = new DataClass(product3, "Boat", "Price: 3000€");
+        dataList.add(data);
+        data = new DataClass(product4, "Handheld drill", "Price: 150€");
+        dataList.add(data);
     }
 
     @Override
@@ -158,5 +195,22 @@ public class ProductActivity extends AppCompatActivity {
         InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         return bitmap;
+    }
+
+    public void createRecyclerView() {
+        mRecyclerView = findViewById(R.id.recyclerView2);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mAdapter = new ProductRecyclerViewAdapter(dataList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new ProductRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
     }
 }
