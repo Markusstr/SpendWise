@@ -123,22 +123,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        //TODO: Check what id is
         return true;
     }
-
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                assert data != null;
-                String product_name = data.getStringExtra("product_name");
-                String product_price = data.getStringExtra("product_price");
-                Bitmap product_image = data.getExtra
-
-            }
-        }
-    }*/
 
     public void createRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
