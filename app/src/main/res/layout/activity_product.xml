@@ -23,7 +23,6 @@
             android:layout_height="130dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,21 +32,30 @@
             android:layout_height="27dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-
-            android:text="Product name"
             android:textColor="#000000"
             android:textSize="25sp"
             app:layout_constraintStart_toEndOf="@+id/product_picture"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/main_url_text"
+            android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Product info comes here"
             app:layout_constraintStart_toStartOf="@+id/product_name"
             app:layout_constraintTop_toBottomOf="@+id/product_name" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

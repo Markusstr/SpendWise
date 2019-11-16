@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Snackbar.make(v, "Enter URL first!", Snackbar.LENGTH_SHORT).show();
                 }
                 else {
-                    //TODO: Send URL to server
                     Intent intent = new Intent(v.getContext(), ProductActivity.class);
+                    intent.putExtra("url", main_url_input.getText().toString());
                     startActivity(intent);
                 }
             }
