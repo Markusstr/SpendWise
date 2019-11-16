@@ -38,7 +38,7 @@ import okhttp3.Response;
 
 public class ProductActivity extends AppCompatActivity {
 
-    float ean;
+    float ean = 0;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProductRecyclerViewAdapter mAdapter;
@@ -145,9 +145,14 @@ public class ProductActivity extends AppCompatActivity {
                                 product_price.setText(priceText);
                                 product_picture.setImageBitmap(finalImage);
                                 ean = Float.parseFloat(finalData.get("ean").toString());
-                                String averageText = finalData.get("usage").toString();
-                                average_time.setText(averageText);
-                                co2_value.setText(finalData.get("co2").toString());
+                                String averageTimeString = finalData.get("usage").toString();
+                                Integer averageTime = Integer.parseInt(averageTimeString);
+                                averageTimeString = averageTime.toString();
+                                average_time.setText(averageTimeString);
+                                String co2String = finalData.get("co2").toString();
+                                Integer co2Integer = Integer.parseInt((co2String));
+                                co2String = co2Integer.toString();
+                                co2_value.setText(co2String);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -213,6 +218,34 @@ public class ProductActivity extends AppCompatActivity {
         InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         return bitmap;
+    }
+
+    public void markPurchased() {
+        if (ean== 0) {
+            return;
+        }
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("ean", ean);
+            jsonObject.put("username", "JokuPelle");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
+        Request request = new Request.Builder()
+                .url("http://23.101.59.215:5000/newpurchase")
+                .post(body)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createRecyclerView() {

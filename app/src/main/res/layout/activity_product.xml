@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/main_background">
 
+    <Button
+        android:id="@+id/mark_purchased_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="markPurchased"
+        android:text="Mark purchased"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="@dimen/layout_width"
@@ -149,21 +161,23 @@
         android:id="@+id/similar_products_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:text="Other similar products"
         android:textColor="#000000"
         android:textSize="@dimen/text_size"
         app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/mark_purchased_btn" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView2"
         android:layout_width="@dimen/layout_width"
-        android:layout_height="269dp"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/similar_products_text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
