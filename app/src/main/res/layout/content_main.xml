@@ -10,10 +10,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="370dp"
+        android:layout_width="@dimen/layout_width"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/layout_round"
+        android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,11 +25,10 @@
             android:layout_width="259dp"
             android:layout_height="27dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="Product URL"
-
             android:textColor="#000000"
-            android:textSize="25sp"
+            android:textSize="@dimen/text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +75,7 @@
 
         <Button
             android:id="@+id/main_url_button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="88dp"
             android:layout_height="42dp"
             android:layout_marginTop="5dp"
@@ -87,14 +88,108 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="370dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="15dp"
+        android:id="@+id/constraintLayout2"
+        android:layout_width="@dimen/layout_width"
+        android:layout_height="170dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/layout_round"
+        android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
+        <TextView
+            android:id="@+id/graph_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Future balance"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/graph_image"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:src="@drawable/spendings_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="@dimen/layout_width"
+        android:layout_height="57dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_round"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <TextView
+            android:id="@+id/bank_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Account balance"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/bank_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="1 200,30 €"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bank_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/search_history_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="Search history"
+        android:textColor="#000000"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout3" />
+
+    <TextView
+        android:id="@+id/search_history_showall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="10dp"
+        android:background="?android:selectableItemBackground"
+        android:text="Show all"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toTopOf="@+id/search_history_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="380dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/search_history_text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

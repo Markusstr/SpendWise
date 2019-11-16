@@ -2,8 +2,10 @@ package com.example.spendwise;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ import okhttp3.Response;
 
 public class ProductActivity extends AppCompatActivity {
 
+    float ean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class ProductActivity extends AppCompatActivity {
         final TextView product_price = findViewById(R.id.product_price);
         final ImageView product_picture = findViewById(R.id.product_picture);
         final ProgressBar progressBar2 = findViewById(R.id.progressBar2);
+        final TextView average_time = findViewById(R.id.average_time);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -66,7 +71,23 @@ public class ProductActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                progressBar2.setVisibility(View.INVISIBLE);
+                ProductActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar2.setVisibility(View.INVISIBLE);
+                        new AlertDialog.Builder(ProductActivity.this)
+                                .setTitle("Cannot connect to server")
+                                .setMessage("We are having trouble connecting to the server. Try again later.")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                })
+                                .setIcon(R.drawable.ic_warning)
+                                .show();
+                    }
+                });
                 e.printStackTrace();
             }
 
@@ -87,10 +108,15 @@ public class ProductActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                product_name.setText(finalData.get("name").toString());
+                                String productName = finalData.get("name").toString();
+                                product_name.setText(productName);
                                 String priceText = "Price: " + finalData.get("price").toString() + "€";
                                 product_price.setText(priceText);
                                 product_picture.setImageBitmap(finalImage);
+                                ean = Float.parseFloat(finalData.get("ean").toString());
+                                String averageText = "Average use time of " + productName + " is " + finalData.get("usage").toString();
+                                average_time.setText(averageText);
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

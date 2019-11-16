@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="370dp"
+        android:layout_width="@dimen/layout_width"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/layout_round"
@@ -28,20 +28,21 @@
 
         <TextView
             android:id="@+id/product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:textColor="#000000"
-            android:textSize="25sp"
+            android:textSize="@dimen/text_size"
             app:layout_constraintStart_toEndOf="@+id/product_picture"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/product_price"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="20dp"
             app:layout_constraintStart_toStartOf="@+id/product_name"
             app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
@@ -60,7 +61,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="370dp"
+        android:layout_width="@dimen/layout_width"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/layout_round"
@@ -69,5 +70,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
+        <TextView
+            android:id="@+id/average_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Average usetime"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/average_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text=""
+            app:layout_constraintStart_toStartOf="@+id/average_time_text"
+            app:layout_constraintTop_toBottomOf="@+id/average_time_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
