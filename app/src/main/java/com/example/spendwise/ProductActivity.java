@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -57,17 +58,34 @@ public class ProductActivity extends AppCompatActivity {
         final TextView average_time = findViewById(R.id.average_time);
         final TextView co2_value = findViewById(R.id.co2_value);
 
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        String url = "";
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle("Product");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                if (sharedText != null) {
+                    url = sharedText;
+                }
+            }
+        } else {
+            url = intent.getStringExtra("url");
+        }
+
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("url", getIntent().getStringExtra("url"));
+            jsonObject.put("url", url);
         } catch (JSONException e) {
             e.printStackTrace();
         }
