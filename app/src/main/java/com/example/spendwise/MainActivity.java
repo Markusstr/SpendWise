@@ -27,7 +27,7 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        ImageView graphImage = findViewById(R.id.graph_image);
         final ImageButton main_url_close = findViewById(R.id.main_url_close);
         final EditText main_url_input = findViewById(R.id.main_url_input);
         final Button main_url_button = findViewById(R.id.main_url_button);
@@ -80,6 +80,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     intent.putExtra("url", main_url_input.getText().toString());
                     startActivity(intent);
                 }
+            }
+        });
+
+        graphImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), GraphActivity.class);
+                startActivity(intent);
             }
         });
 

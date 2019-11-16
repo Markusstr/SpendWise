@@ -12,8 +12,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ import okhttp3.Response;
 
 public class ProductActivity extends AppCompatActivity {
 
-    float ean = 0;
+    String ean = "";
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProductRecyclerViewAdapter mAdapter;
@@ -57,6 +59,8 @@ public class ProductActivity extends AppCompatActivity {
         final ProgressBar progressBar2 = findViewById(R.id.progressBar2);
         final TextView average_time = findViewById(R.id.average_time);
         final TextView co2_value = findViewById(R.id.co2_value);
+        final TextView average_price = findViewById(R.id.average_price);
+        final Button product_button = findViewById(R.id.mark_purchased_btn);
 
         // Get intent, action and MIME type
         Intent intent = getIntent();
@@ -80,6 +84,60 @@ public class ProductActivity extends AppCompatActivity {
         } else {
             url = intent.getStringExtra("url");
         }
+
+        product_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ean.equals("")) {
+                    return;
+                }
+                MediaType JSON = MediaType.get("application/json; charset=utf-8");
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("ean", ean);
+                    jsonObject.put("username", "JokuPelle");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
+                Request request = new Request.Builder()
+                        .url("http://23.101.59.215:5000/newpurchase")
+                        .post(body)
+                        .build();
+
+                OkHttpClient client = new OkHttpClient();
+
+                /*Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        ProductActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                product_button.setEnabled(false);
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        ProductActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                product_button.setEnabled(false);
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
         MediaType JSON = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -144,15 +202,19 @@ public class ProductActivity extends AppCompatActivity {
                                 String priceText = "Price: " + finalData.get("price").toString() + "€";
                                 product_price.setText(priceText);
                                 product_picture.setImageBitmap(finalImage);
-                                ean = Float.parseFloat(finalData.get("ean").toString());
-                                String averageTimeString = finalData.get("usage").toString();
-                                Integer averageTime = Integer.parseInt(averageTimeString);
-                                averageTimeString = averageTime.toString();
-                                average_time.setText(averageTimeString);
-                                String co2String = finalData.get("co2").toString();
-                                Integer co2Integer = Integer.parseInt((co2String));
-                                co2String = co2Integer.toString();
+                                ean = finalData.get("ean").toString();
+                                float usageFloat = Float.parseFloat(finalData.get("usage").toString());
+                                Integer usageInt = Math.round(usageFloat);
+                                String usageString = usageInt.toString() + " weeks";
+                                average_time.setText(usageString);
+                                float co2Float = Float.parseFloat(finalData.get("co2").toString());
+                                Integer co2Int = Math.round(co2Float);
+                                String co2String = co2Int.toString() + " kg";
                                 co2_value.setText(co2String);
+                                float priceFloat = Float.parseFloat(finalData.get("price").toString()) / usageFloat;
+                                Integer priceInt = Math.round(priceFloat);
+                                String priceString = priceInt.toString() + " €/week";
+                                average_price.setText(priceString);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -218,34 +280,6 @@ public class ProductActivity extends AppCompatActivity {
         InputStream inputStream = Objects.requireNonNull(response.body()).byteStream();
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
         return bitmap;
-    }
-
-    public void markPurchased() {
-        if (ean== 0) {
-            return;
-        }
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("ean", ean);
-            jsonObject.put("username", "JokuPelle");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
-        Request request = new Request.Builder()
-                .url("http://23.101.59.215:5000/newpurchase")
-                .post(body)
-                .build();
-
-        OkHttpClient client = new OkHttpClient();
-
-        try {
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void createRecyclerView() {
